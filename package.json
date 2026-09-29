@@ -1,0 +1,30 @@
+{
+  "name": "cse341-final-project",
+  "version": "1.0.0",
+  "description": "CSE 341 Final Project - Restaurant Management API",
+  "main": "index.js",
+  "scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaviVale/cse341-final-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DaviVale/cse341-final-project/issues"
+  },
+  "homepage": "https://github.com/DaviVale/cse341-final-project#readme",
+  "dependencies": {
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "mongodb": "^7.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
