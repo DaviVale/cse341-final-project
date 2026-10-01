@@ -9,6 +9,7 @@ require('dotenv').config();
 const express = require('express');
 const mongodb = require('./db/connect');
 const usersRoutes = require('./routes/users');
+const categoriesRoutes = require('./routes/categories');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,13 +17,16 @@ const port = process.env.PORT || 3000;
 // Allows the API to receive JSON data.
 app.use(express.json());
 
-// Main route used to verify that the API is running.
+/// Main route used to verify that the API is running.
 app.get('/', (req, res) => {
   res.status(200).send('Restaurant Management API is running');
 });
 
 // Users routes.
 app.use('/users', usersRoutes);
+
+// Categories routes.
+app.use('/categories', categoriesRoutes);
 
 // Connect to MongoDB before starting the server.
 mongodb
