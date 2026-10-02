@@ -10,6 +10,7 @@ const express = require('express');
 const mongodb = require('./db/connect');
 const usersRoutes = require('./routes/users');
 const categoriesRoutes = require('./routes/categories');
+const swaggerRoutes = require('./routes/swagger');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +28,9 @@ app.use('/users', usersRoutes);
 
 // Categories routes.
 app.use('/categories', categoriesRoutes);
+
+// Swagger routes.
+app.use('/', swaggerRoutes);
 
 // Validation for unknown routes and error handling middleware.
 app.use((req, res) => {
