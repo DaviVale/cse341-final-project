@@ -5,10 +5,9 @@
     "description": "CSE341 Final Project: API for Restaurant Management",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-final-project-zbd7.onrender.com/",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "paths": {
