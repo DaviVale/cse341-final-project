@@ -28,6 +28,27 @@ app.use('/users', usersRoutes);
 // Categories routes.
 app.use('/categories', categoriesRoutes);
 
+// Validation for unknown routes and error handling middleware.
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+app.use((error, req, res, next) => {
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  if (error.type === 'entity.parse.failed') {
+    return res.status(400).json({ message: 'Invalid JSON request body' });
+  }
+  if (error.status === 413) {
+    return res.status(413).json({ message: 'Request body is too large' });
+  }
+
+  console.error('Unhandled request error:', error);
+  res.status(500).json({ message: 'Internal server error' });
+});
+
 // Connect to MongoDB before starting the server.
 mongodb
   .initDb()

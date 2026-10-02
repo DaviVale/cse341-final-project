@@ -23,7 +23,7 @@ const validateUser = (body, partial = false) => {
     }
   }
   if (!partial || email !== undefined) {
-    if (typeof email !== 'string' || !EMAIL_REGEX.test(email)) {
+    if (typeof email !== 'string' || !EMAIL_REGEX.test(email.trim())) {
       errors.push('email is required and must be a valid email address');
     }
   }
@@ -43,7 +43,8 @@ const getAllUsers = async (req, res) => {
     const users = await getCollection().find().toArray();
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Error retrieving users', error: error.message });
+    console.error('Error retrieving users:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -60,7 +61,8 @@ const getUserById = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Error retrieving user', error: error.message });
+    console.error('Error retrieving user:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -73,9 +75,10 @@ const createUser = async (req, res) => {
     }
 
     const { firstName, lastName, email, phone, role } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
     const collection = getCollection();
 
-    const existing = await collection.findOne({ email: email.toLowerCase() });
+    const existing = await collection.findOne({ email: normalizedEmail });
     if (existing) {
       return res.status(409).json({ message: 'A user with that email already exists' });
     }
@@ -83,7 +86,7 @@ const createUser = async (req, res) => {
     const user = {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       phone: phone || '',
       role: role || 'customer',
       createdAt: new Date()
@@ -92,7 +95,8 @@ const createUser = async (req, res) => {
     const result = await collection.insertOne(user);
     res.status(201).json({ id: result.insertedId });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user', error: error.message });
+    console.error('Error creating user:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -121,7 +125,7 @@ const updateUser = async (req, res) => {
 
     if (updates.firstName) updates.firstName = updates.firstName.trim();
     if (updates.lastName) updates.lastName = updates.lastName.trim();
-    if (updates.email) updates.email = updates.email.toLowerCase();
+    if (updates.email) updates.email = updates.email.trim().toLowerCase();
 
     const userId = new ObjectId(req.params.id);
     const collection = getCollection();
@@ -143,7 +147,8 @@ const updateUser = async (req, res) => {
     }
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ message: 'Error updating user', error: error.message });
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -160,7 +165,8 @@ const deleteUser = async (req, res) => {
     }
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting user', error: error.message });
+    console.error('Error deleting user:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
