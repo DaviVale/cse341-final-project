@@ -5,9 +5,10 @@
     "description": "CSE341 Final Project: API for Restaurant Management",
     "version": "1.0.0"
   },
-  "host": "cse341-final-project-zbd7.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
+    "http",
     "https"
   ],
   "paths": {
@@ -205,17 +206,21 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Category data",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
+                  "type": "string",
                   "example": "any"
                 },
                 "description": {
+                  "type": "string",
                   "example": "any"
                 },
                 "isActive": {
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -285,8 +290,8 @@
                   "example": "any"
                 },
                 "isActive": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }

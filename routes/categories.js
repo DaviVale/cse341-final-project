@@ -4,7 +4,21 @@ const categoriesController = require('../controllers/categories');
 
 router.get('/', categoriesController.getAllCategories); 
 router.get('/:id', categoriesController.getCategoryById); 
-router.post('/', categoriesController.createCategory); 
+router.post('/', (req, res, next) => {
+
+    /* #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Category data',
+        schema: {
+            name: 'any',
+            description: 'any',
+            isActive: true
+        }
+    } */
+
+    categoriesController.createCategory(req, res, next);
+
+});
 router.put('/:id', (req, res, next) => {
     /* #swagger.parameters['body'] = {
         in: 'body',
@@ -12,7 +26,7 @@ router.put('/:id', (req, res, next) => {
         schema: {
             name: 'any',
             description: 'any',
-            isActive: 'any'
+            isActive: true
         }
     } */
     categoriesController.updateCategory(req, res, next);
