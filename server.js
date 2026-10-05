@@ -10,6 +10,7 @@ const express = require('express');
 const mongodb = require('./db/connect');
 const usersRoutes = require('./routes/users');
 const categoriesRoutes = require('./routes/categories');
+const menuItemsRoutes = require('./routes/menu-items');
 const swaggerRoutes = require('./routes/swagger');
 
 const app = express();
@@ -28,6 +29,9 @@ app.use('/users', usersRoutes);
 
 // Categories routes.
 app.use('/categories', categoriesRoutes);
+
+// menu-items routes.
+app.use('/menu-items', menuItemsRoutes);
 
 // Swagger routes.
 app.use('/', swaggerRoutes);
