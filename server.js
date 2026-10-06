@@ -8,22 +8,107 @@ require('dotenv').config();
 
 const express = require('express');
 const mongodb = require('./db/connect');
+
+const passport = require('passport');
+const session = require('express-session');
+const GitHubStrategy = require('passport-github2').Strategy;
+
 const usersRoutes = require('./routes/users');
 const categoriesRoutes = require('./routes/categories');
 const menuItemsRoutes = require('./routes/menu-items');
 const ordersRoutes = require('./routes/orders');
+
 const swaggerRoutes = require('./routes/swagger');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// use session to persist user authentication across requests
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'dev-secret',
+    resave: false,
+    saveUninitialized: false,
+    proxy: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Configure GitHub OAuth authentication using Passport
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACKURL
+},
+    function (accessToken, refreshToken, profile, done) {
+        return done(null, profile);
+    }
+));
+
+// Store the authenticated user in the session
+passport.serializeUser((user, done) => done(null, user));
+// Retrieve the authenticated user from the session
+passport.deserializeUser((user, done) => done(null, user));
+
+// Main route used to verify if the user is logged in
+app.get('/', (req, res) => {
+    res.send(
+        req.session.user !== undefined
+            ? `Logged in as ${req.session.user.username}`
+            : 'Logged Out'
+    );
+});
+
+// Start GitHub OAuth login
+app.get('/login', passport.authenticate('github'));
+
+// Log out the authenticated user
+app.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+
+        req.session.destroy(() => res.redirect('/'));
+    });
+});
+
+// GitHub OAuth callback route.
+app.get('/auth/github/callback',
+    passport.authenticate('github', {
+        failureRedirect: '/api-docs',
+        session: false
+    }),
+    (req, res, next) => {
+        console.log('Callback OK, user:', req.user && req.user.username);
+
+        req.session.user = {
+            id: req.user.id,
+            username: req.user.username,
+            displayName: req.user.displayName
+        };
+
+        req.session.save((err) => {
+            if (err) {
+                return next(err);
+            }
+
+            res.redirect('/');
+        });
+    }
+);
+
+
 // Allows the API to receive JSON data.
 app.use(express.json());
 
-/// Main route used to verify that the API is running.
-app.get('/', (req, res) => {
-  res.status(200).send('Restaurant Management API is running');
-});
+
 
 // Users routes.
 app.use('/users', usersRoutes);
