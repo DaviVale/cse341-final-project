@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const categoriesController = require('../controllers/categories');
 
-router.get('/', categoriesController.getAllCategories); 
-router.get('/:id', categoriesController.getCategoryById); 
-router.post('/', (req, res, next) => {
+const { isAuthenticated } = require('../middleware/authenticate');
 
+// Public routes: anyone can read categories.
+router.get('/', categoriesController.getAllCategories);
+router.get('/:id', categoriesController.getCategoryById);
+
+// Protected routes: the user must be logged in with GitHub (OAuth).
+router.post('/', isAuthenticated, (req, res, next) => {
     /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Category data',
@@ -15,11 +19,10 @@ router.post('/', (req, res, next) => {
             isActive: true
         }
     } */
-
     categoriesController.createCategory(req, res, next);
-
 });
-router.put('/:id', (req, res, next) => {
+
+router.put('/:id', isAuthenticated, (req, res, next) => {
     /* #swagger.parameters['body'] = {
         in: 'body',
         description: 'Fields to update (all optional, send at least one)',
@@ -31,6 +34,7 @@ router.put('/:id', (req, res, next) => {
     } */
     categoriesController.updateCategory(req, res, next);
 });
-router.delete('/:id', categoriesController.deleteCategory); 
+
+router.delete('/:id', isAuthenticated, categoriesController.deleteCategory);
 
 module.exports = router;
