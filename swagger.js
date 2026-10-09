@@ -8,8 +8,8 @@ const doc = {
         title: 'Restaurant Management API',
         description: 'CSE341 Final Project: API for Restaurant Management'
     },
-    host: 'localhost:3000',    // In the swagger.JSON, change for the render url containing our project  
-    schemes: ['http', 'https']
+    host: 'cse341-final-project-zbd7.onrender.com',
+    schemes: ['https']
 };
 
 // Create an output file in the root directory to save the documentation
