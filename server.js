@@ -58,6 +58,7 @@ passport.deserializeUser((user, done) => done(null, user));
 
 // Main route used to verify if the user is logged in
 app.get('/', (req, res) => {
+    /* #swagger.tags = ['System'] */
     res.send(
         req.session.user !== undefined
             ? `Logged in as ${req.session.user.username}`
@@ -66,10 +67,14 @@ app.get('/', (req, res) => {
 });
 
 // Start GitHub OAuth login
-app.get('/login', passport.authenticate('github'));
+app.get('/login', (req, res, next) => {
+    /* #swagger.tags = ['Authentication'] */
+    passport.authenticate('github')(req, res, next);
+});
 
 // Log out the authenticated user
 app.get('/logout', (req, res, next) => {
+    /* #swagger.tags = ['Authentication'] */
     req.logout((err) => {
         if (err) {
             return next(err);
@@ -86,6 +91,7 @@ app.get('/auth/github/callback',
         session: false
     }),
     (req, res, next) => {
+        /* #swagger.tags = ['Authentication'] */
         console.log('Callback OK, user:', req.user && req.user.username);
 
         req.session.user = {
@@ -111,19 +117,19 @@ app.use(express.json());
 
 
 // Users routes.
-app.use('/users', usersRoutes);
+app.use('/users', /* #swagger.tags = ['Users'] */ usersRoutes);
 
 // Categories routes.
-app.use('/categories', categoriesRoutes);
+app.use('/categories', /* #swagger.tags = ['Categories'] */ categoriesRoutes);
 
 // menu-items routes.
-app.use('/menu-items', menuItemsRoutes);
+app.use('/menu-items', /* #swagger.tags = ['Menu Items'] */ menuItemsRoutes);
 
 // Orders routes.
-app.use('/orders', ordersRoutes);
+app.use('/orders', /* #swagger.tags = ['Orders'] */ ordersRoutes);
 
 // Swagger routes.
-app.use('/', swaggerRoutes);
+app.use('/', /* #swagger.tags = ['Documentation'] */ swaggerRoutes);
 
 // Validation for unknown routes and error handling middleware.
 app.use((req, res) => {

@@ -9,7 +9,16 @@ const doc = {
         description: 'CSE341 Final Project: API for Restaurant Management'
     },
     host: 'cse341-final-project-zbd7.onrender.com',
-    schemes: ['https']
+    schemes: ['https'],
+    tags: [
+        { name: 'System', description: 'API status and root endpoints' },
+        { name: 'Authentication', description: 'GitHub OAuth login and session endpoints' },
+        { name: 'Users', description: 'User management endpoints' },
+        { name: 'Categories', description: 'Menu category endpoints' },
+        { name: 'Menu Items', description: 'Menu item endpoints' },
+        { name: 'Orders', description: 'Order management endpoints' },
+        { name: 'Documentation', description: 'API documentation endpoints' }
+    ]
 };
 
 // Create an output file in the root directory to save the documentation
