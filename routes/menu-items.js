@@ -14,9 +14,9 @@ router.post('/', isAuthenticated, (req, res, next) => {
         schema: {
             name: 'any',
             description: 'any',
-            price: 'any',
-            categoryId: 'any',
-            isAvailable: 'any'
+            price: 29.9,
+            categoryId: '6ac171ea973358fc0fee0899',
+            isAvailable: true
         }
     } */
     menuItemsController.createMenuItem(req, res, next);
@@ -28,9 +28,9 @@ router.put('/:id', isAuthenticated, (req, res, next) => {
         schema: {
             name: 'any',
             description: 'any',
-            price: 'any',
-            categoryId: 'any',
-            isAvailable: 'any'
+            price: 29.9,
+            categoryId: '6ac171ea973358fc0fee0899',
+            isAvailable: true
         }
     } */
     menuItemsController.updateMenuItem(req, res, next);

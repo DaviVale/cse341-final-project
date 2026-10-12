@@ -494,16 +494,16 @@
                   "example": "any"
                 },
                 "price": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 29.9
                 },
                 "categoryId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6ac171ea973358fc0fee0899"
                 },
                 "isAvailable": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -582,16 +582,16 @@
                   "example": "any"
                 },
                 "price": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 29.9
                 },
                 "categoryId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6ac171ea973358fc0fee0899"
                 },
                 "isAvailable": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -671,37 +671,53 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Order data. Requires an authenticated session. userId must be a valid MongoDB id; items must be a non-empty array.",
+            "description": "Order data. Requires an authenticated session. userId must be a valid MongoDB id; tableNumber must be a positive integer; items must be a non-empty array; status can be pending, preparing, ready, completed, or cancelled; paymentMethod can be cash, card, or online.",
             "schema": {
               "type": "object",
               "properties": {
                 "userId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6abf9d1368270732931bab7b"
                 },
                 "tableNumber": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 },
                 "items": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "Week 06 Burger"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 29.9
+                      }
+                    }
+                  }
                 },
                 "total": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 29.9
                 },
                 "status": {
                   "type": "string",
-                  "example": "any"
+                  "example": "pending"
                 },
                 "paymentMethod": {
                   "type": "string",
-                  "example": "any"
+                  "example": "card"
                 },
                 "notes": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Week 06 video test"
                 }
               }
             }
@@ -773,31 +789,47 @@
               "properties": {
                 "userId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6abf9d1368270732931bab7b"
                 },
                 "tableNumber": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 },
                 "items": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "Week 06 Burger"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 29.9
+                      }
+                    }
+                  }
                 },
                 "total": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 29.9
                 },
                 "status": {
                   "type": "string",
-                  "example": "any"
+                  "example": "preparing"
                 },
                 "paymentMethod": {
                   "type": "string",
-                  "example": "any"
+                  "example": "card"
                 },
                 "notes": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Updated order"
                 }
               }
             }
