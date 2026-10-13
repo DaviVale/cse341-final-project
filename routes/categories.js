@@ -22,6 +22,7 @@ router.post('/', isAuthenticated, (req, res, next) => {
     categoriesController.createCategory(req, res, next);
 });
 
+// Protected routes: the user must be logged in with GitHub (OAuth).
 router.put('/:id', isAuthenticated, (req, res, next) => {
     /* #swagger.parameters['body'] = {
         in: 'body',

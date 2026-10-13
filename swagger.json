@@ -117,23 +117,29 @@
           {
             "name": "body",
             "in": "body",
+            "description": "User data. Requires an authenticated session. role can be customer, staff, or admin.",
             "schema": {
               "type": "object",
               "properties": {
                 "firstName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Davi"
                 },
                 "lastName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Vale"
                 },
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "davi@example.com"
                 },
                 "phone": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "43999999999"
                 },
                 "role": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "customer"
                 }
               }
             }
@@ -202,29 +208,29 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Fields to update (all optional, send at least one)",
+            "description": "Fields to update (all optional, send at least one). Requires an authenticated session. role can be customer, staff, or admin.",
             "schema": {
               "type": "object",
               "properties": {
                 "firstName": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Davi"
                 },
                 "lastName": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Vale"
                 },
                 "email": {
                   "type": "string",
-                  "example": "any"
+                  "example": "davi@example.com"
                 },
                 "phone": {
                   "type": "string",
-                  "example": "any"
+                  "example": "43999999999"
                 },
                 "role": {
                   "type": "string",
-                  "example": "any"
+                  "example": "customer"
                 }
               }
             }

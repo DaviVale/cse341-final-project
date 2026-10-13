@@ -1,25 +1,45 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/authenticate');
-const usersController = require('../controllers/users'); // ES: acá traigo las funciones del CRUD de usuarios | PT: aqui importo as funções do CRUD de usuários
+const usersController = require('../controllers/users');
 
-router.get('/', usersController.getAllUsers); // ES: trae todos los usuarios | PT: retorna todos os usuários
-router.get('/:id', usersController.getUserById); // ES: trae un usuario por su id | PT: retorna um usuário pelo id
-router.post('/', isAuthenticated, usersController.createUser); // ES: crea un usuario nuevo | PT: cria um novo usuário
+// Public routes: anyone can read users.
+router.get('/', usersController.getAllUsers);
+router.get('/:id', usersController.getUserById);
+
+// Protected route: the user must be logged in with GitHub OAuth.
+router.post('/', isAuthenticated, (req, res, next) => {
+    /* #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'User data. Requires an authenticated session. role can be customer, staff, or admin.',
+        schema: {
+            firstName: 'Davi',
+            lastName: 'Vale',
+            email: 'davi@example.com',
+            phone: '43999999999',
+            role: 'customer'
+        }
+    } */
+    usersController.createUser(req, res, next);
+});
+
+// Protected route: the user must be logged in with GitHub OAuth.
 router.put('/:id', isAuthenticated, (req, res, next) => {
     /* #swagger.parameters['body'] = {
         in: 'body',
-        description: 'Fields to update (all optional, send at least one)',
+        description: 'Fields to update (all optional, send at least one). Requires an authenticated session. role can be customer, staff, or admin.',
         schema: {
-            firstName: 'any',
-            lastName: 'any',
-            email: 'any',
-            phone: 'any',
-            role: 'any'
+            firstName: 'Davi',
+            lastName: 'Vale',
+            email: 'davi@example.com',
+            phone: '43999999999',
+            role: 'customer'
         }
     } */
     usersController.updateUser(req, res, next);
-}); // ES: actualiza un usuario por su id | PT: atualiza um usuário pelo id
-router.delete('/:id', isAuthenticated, usersController.deleteUser); // ES: borra un usuario por su id | PT: apaga um usuário pelo id
+});
 
-module.exports = router; // ES: falta conectarlo en server.js con app.use('/users', require('./routes/users')) | PT: falta conectar no server.js com app.use('/users', require('./routes/users'))
+// Protected route: the user must be logged in with GitHub OAuth.
+router.delete('/:id', isAuthenticated, usersController.deleteUser);
+
+module.exports = router;
