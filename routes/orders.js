@@ -10,19 +10,26 @@ router.get('/:id', ordersController.getSingle);
 
 // Protected route: the user must be logged in with GitHub (OAuth).
 router.post('/', isAuthenticated, (req, res, next) => {
-  /* #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Order data. Requires an authenticated session. userId must be a valid MongoDB id; items must be a non-empty array.',
-      schema: {
-          userId: 'any',
-          tableNumber: 'any',
-          items: 'any',
-          total: 'any',
-          status: 'any',
-          paymentMethod: 'any',
-          notes: 'any'
-      }
-  } */
+
+    /* #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Order data. Requires an authenticated session. userId must be a valid MongoDB id; items must be a non-empty array.',
+        schema: {
+            $userId: '6abf9d3568270732931bab7c',
+            $tableNumber: 5,
+            $items: [
+                {
+                    $menuItemId: '6ac3dc8c0cd32077afc81c0b',
+                    $quantity: 2
+                }
+            ],
+            $total: 7.98,
+            $status: 'pending',
+            $paymentMethod: 'cash',
+            $notes: 'No onions'
+        }
+    } */
+
   ordersController.createOrder(req, res, next);
 });
 
@@ -32,13 +39,18 @@ router.put('/:id', isAuthenticated, (req, res, next) => {
       in: 'body',
       description: 'Fields to update (all optional, send at least one). Requires an authenticated session. status: pending, preparing, ready, completed, or cancelled. paymentMethod: cash, card, or online.',
       schema: {
-          userId: 'any',
-          tableNumber: 'any',
-          items: 'any',
-          total: 'any',
-          status: 'any',
-          paymentMethod: 'any',
-          notes: 'any'
+        $userId: '6abf9d3568270732931bab7c',
+        $tableNumber: 5,
+        $items: [
+            {
+                $menuItemId: '6ac3dc8c0cd32077afc81c0b',
+                $quantity: 2
+            }
+        ],
+        $total: 7.98,
+        $status: 'preparing',
+        $paymentMethod: 'card',
+        $notes: 'Extra napkins'
       }
   } */
   ordersController.updateOrder(req, res, next);

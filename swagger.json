@@ -409,23 +409,23 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Fresh Lemonade"
                 },
                 "description": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Homemade lemonade with fresh lemon juice"
                 },
                 "price": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 3.99
                 },
                 "categoryId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6abfaf586ba8e801544a55ea"
                 },
                 "isAvailable": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -491,23 +491,23 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Fresh Lemonade"
                 },
                 "description": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Homemade lemonade with fresh lemon juice"
                 },
                 "price": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 3.99
                 },
                 "categoryId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6abfaf586ba8e801544a55ea"
                 },
                 "isAvailable": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -578,39 +578,64 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Order data. userId must be a valid MongoDB id; items must be a non-empty array.",
+            "description": "Order data. Requires an authenticated session. userId must be a valid MongoDB id; items must be a non-empty array.",
             "schema": {
               "type": "object",
               "properties": {
                 "userId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6abf9d3568270732931bab7c"
                 },
                 "tableNumber": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 },
                 "items": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "menuItemId": {
+                        "type": "string",
+                        "example": "6ac3dc8c0cd32077afc81c0b"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 2
+                      }
+                    },
+                    "required": [
+                      "menuItemId",
+                      "quantity"
+                    ]
+                  }
                 },
                 "total": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 7.98
                 },
                 "status": {
                   "type": "string",
-                  "example": "any"
+                  "example": "pending"
                 },
                 "paymentMethod": {
                   "type": "string",
-                  "example": "any"
+                  "example": "cash"
                 },
                 "notes": {
                   "type": "string",
-                  "example": "any"
+                  "example": "No onions"
                 }
-              }
+              },
+              "required": [
+                "userId",
+                "tableNumber",
+                "items",
+                "total",
+                "status",
+                "paymentMethod",
+                "notes"
+              ]
             }
           }
         ],
@@ -620,6 +645,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
@@ -665,39 +693,64 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Fields to update (all optional, send at least one). status: pending, preparing, ready, completed, or cancelled. paymentMethod: cash, card, or online.",
+            "description": "Fields to update (all optional, send at least one). Requires an authenticated session. status: pending, preparing, ready, completed, or cancelled. paymentMethod: cash, card, or online.",
             "schema": {
               "type": "object",
               "properties": {
                 "userId": {
                   "type": "string",
-                  "example": "any"
+                  "example": "6abf9d3568270732931bab7c"
                 },
                 "tableNumber": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 },
                 "items": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "menuItemId": {
+                        "type": "string",
+                        "example": "6ac3dc8c0cd32077afc81c0b"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 2
+                      }
+                    },
+                    "required": [
+                      "menuItemId",
+                      "quantity"
+                    ]
+                  }
                 },
                 "total": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "number",
+                  "example": 7.98
                 },
                 "status": {
                   "type": "string",
-                  "example": "any"
+                  "example": "preparing"
                 },
                 "paymentMethod": {
                   "type": "string",
-                  "example": "any"
+                  "example": "card"
                 },
                 "notes": {
                   "type": "string",
-                  "example": "any"
+                  "example": "Extra napkins"
                 }
-              }
+              },
+              "required": [
+                "userId",
+                "tableNumber",
+                "items",
+                "total",
+                "status",
+                "paymentMethod",
+                "notes"
+              ]
             }
           }
         ],
@@ -708,6 +761,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -717,7 +773,7 @@
         }
       },
       "delete": {
-        "description": "",
+        "description": "Requires an authenticated session.",
         "parameters": [
           {
             "name": "id",
@@ -732,6 +788,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
